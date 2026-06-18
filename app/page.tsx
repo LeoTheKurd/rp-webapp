@@ -8,17 +8,30 @@ export default function Home() {
   const [selectedUniverse, setSelectedUniverse] = useState<string | null>(null);
 
   const selectCharacter = (characterId: string) => {
+
+    alert("Button clicked: " + characterId);
+
     const telegram = (window as any).Telegram;
 
-    if (telegram?.WebApp) {
-      telegram.WebApp.sendData(
-        JSON.stringify({
-          character: characterId,
-        })
-      );
-
-      telegram.WebApp.close();
+    if (!telegram) {
+      alert("Telegram object not found");
+      return;
     }
+
+    if (!telegram.WebApp) {
+      alert("Telegram WebApp not found");
+      return;
+    }
+
+    telegram.WebApp.sendData(
+      JSON.stringify({
+        character: characterId,
+      })
+    );
+
+    alert("Data sent");
+
+    telegram.WebApp.close();
   };
 
   const filteredCharacters = characters.filter(
