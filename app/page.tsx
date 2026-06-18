@@ -7,6 +7,20 @@ import { universes } from "../data/universes";
 export default function Home() {
   const [selectedUniverse, setSelectedUniverse] = useState<string | null>(null);
 
+  const selectCharacter = (characterId: string) => {
+    const telegram = (window as any).Telegram;
+
+    if (telegram?.WebApp) {
+      telegram.WebApp.sendData(
+        JSON.stringify({
+          character: characterId,
+        })
+      );
+
+      telegram.WebApp.close();
+    }
+  };
+
   const filteredCharacters = characters.filter(
     (character) =>
       character.universe.toLowerCase() === selectedUniverse
@@ -66,12 +80,10 @@ export default function Home() {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 
               {filteredCharacters.map((character) => (
-                <a
+                <button
                   key={character.id}
-                  href={`https://t.me/neverrmorebot?start=${character.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group bg-[#171a21] rounded-2xl overflow-hidden border border-[#242938] hover:border-[#4f5dff] hover:shadow-2xl transition-all duration-300 block"
+                  onClick={() => selectCharacter(character.id)}
+                  className="group bg-[#171a21] rounded-2xl overflow-hidden border border-[#242938] hover:border-[#4f5dff] hover:shadow-2xl transition-all duration-300 block text-left"
                 >
                   <div className="overflow-hidden">
 
@@ -95,7 +107,7 @@ export default function Home() {
 
                   </div>
 
-                </a>
+                </button>
               ))}
 
             </div>
