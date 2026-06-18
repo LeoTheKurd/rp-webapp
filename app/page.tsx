@@ -9,29 +9,9 @@ export default function Home() {
 
   const selectCharacter = (characterId: string) => {
 
-    alert("Button clicked: " + characterId);
-
-    const telegram = (window as any).Telegram;
-
-    if (!telegram) {
-      alert("Telegram object not found");
-      return;
-    }
-
-    if (!telegram.WebApp) {
-      alert("Telegram WebApp not found");
-      return;
-    }
-
-    telegram.WebApp.sendData(
-      JSON.stringify({
-        character: characterId,
-      })
-    );
-
-    alert("Data sent");
-
-    telegram.WebApp.close();
+    window.location.href =
+    `https://t.me/neverrmorebot?start=${characterId}`;
+    
   };
 
   const filteredCharacters = characters.filter(
